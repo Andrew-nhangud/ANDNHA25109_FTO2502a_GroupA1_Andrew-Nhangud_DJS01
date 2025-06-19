@@ -11,7 +11,7 @@
 <body>
     <!-- markup for header of the podcast -->
     <header class="header-container">
-        <div class="innerHeader-container">
+        <div class="innerHeader-container container">
             <div class="rightSide-icons">
                 <img src="images/headphones-icon.png" alt="headphones picture">
                 <h1>Podcast<span>Hub</span> </h1>
@@ -27,6 +27,31 @@
         <h1>Discover Podcasts</h1>
         <p>Find your next favorite show from our curated collection </p>
     </section>
+
+    <!-- Markup for the filter/search bar  -->
+    <section class="filter container">
+        <div class="searchBar-container">
+            <img src="images/search-icon.png" alt="search icon">
+            <input type="text" placeholder="Search podcasts..." class="search-bar">
+        </div>
+        <div class="dropdown-menus">
+            <!-- Genre Dropdown -->
+            <select id="genre-select" name="genre">
+                <option value="">Genre</option>
+                <option value="action">Action</option>
+                <option value="comedy">Comedy</option>
+                <option value="drama">Drama</option>
+            </select>
+
+            <!-- Sort Dropdown -->
+            <select id="sort-select" name="sort">
+                <option value="">Sort By</option>
+                <option value="latest">Latest</option>
+                <option value="oldest">Oldest</option>
+            </select>
+        </div>
+    </section>
+
 
     <script src="main.js"></script>
 </body>
