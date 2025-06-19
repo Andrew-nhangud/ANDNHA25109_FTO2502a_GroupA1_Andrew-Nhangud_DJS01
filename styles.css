@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 *{
     margin: 0;
     padding: 0;
@@ -7,29 +7,32 @@
 
 :root{
     /* background colors */
-    --primaryBg-color: #f5f5f5;
+    --primaryBg-color: #f7f7f7;
     --secondaryBg-color: #ffffff;
     /* text colors */
     --primary-color: #000;
-    --secondary-color:  #4B5563;
-    --third-color: #1F2937;
-    --accent-color: #D1D5DB;
+    --secondary-color:  #D1D5DB;
+    --third-color: #66696d;
 }
 body{
     background-color: var(--primaryBg-color);
-    font-family: "Inter";
+    font-family: "Noto Sans";
 }
 span{
     font-family: "Playfair Display";
     color: rgb(87, 84, 84);
     font-weight: 800;
 }
-
-/* hheader styles */
+/* universal container */
+/* .container{
+    max-width: 350px;
+    margin: auto;
+} */
+/* Styles for header of the podcast */
 .header-container{
     background-color: var(--secondaryBg-color);
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 .innerHeader-container{
     max-width: 350px;
@@ -44,14 +47,32 @@ span{
     gap: 5px;
 }
 .rightSide-icons h1{
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 500;
 }
 .leftSide-icons img{
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
 }
 
+/* Styles for the hero section  */
+.hero-section{
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 30px;
+    gap: 8px;
+}
+.hero-section h1{
+    font-size: 27px;
+}
+.hero-section p{
+    font-size: 16px;
+    line-height: 27px;
+    color: var(--third-color);
+}
 
 
 
@@ -61,13 +82,25 @@ span{
 
 
 @media (min-width: 768px) {
+/* Styles for header of the podcast */
 .innerHeader-container{
+    max-width: 700px;
+}
+
+/* Styles for the hero section  */
+.hero-section{
     max-width: 700px;
 }
 }
 
 @media (min-width:1024px) {
+/* Styles for header of the podcast */
 .innerHeader-container{
+    max-width: 1300px;
+}
+
+/* Styles for the hero section  */
+.hero-section{
     max-width: 1300px;
 }
 }
