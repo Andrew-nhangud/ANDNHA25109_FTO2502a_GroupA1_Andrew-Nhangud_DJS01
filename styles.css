@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 *{
     margin: 0;
     padding: 0;
@@ -5,10 +6,68 @@
 }
 
 :root{
-    --bg-color: #f9f9f9;
-    --secondaryBg-color: #fff;
+    /* background colors */
+    --primaryBg-color: #f5f5f5;
+    --secondaryBg-color: #ffffff;
+    /* text colors */
     --primary-color: #000;
     --secondary-color:  #4B5563;
     --third-color: #1F2937;
     --accent-color: #D1D5DB;
+}
+body{
+    background-color: var(--primaryBg-color);
+    font-family: "Inter";
+}
+span{
+    font-family: "Playfair Display";
+    color: rgb(87, 84, 84);
+    font-weight: 800;
+}
+
+/* hheader styles */
+.header-container{
+    background-color: var(--secondaryBg-color);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.innerHeader-container{
+    max-width: 350px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.rightSide-icons{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.rightSide-icons h1{
+    font-size: 25px;
+    font-weight: 500;
+}
+.leftSide-icons img{
+    width: 50px;
+    height: 50px;
+}
+
+
+
+
+
+
+
+
+
+@media (min-width: 768px) {
+.innerHeader-container{
+    max-width: 700px;
+}
+}
+
+@media (min-width:1024px) {
+.innerHeader-container{
+    max-width: 1300px;
+}
 }
