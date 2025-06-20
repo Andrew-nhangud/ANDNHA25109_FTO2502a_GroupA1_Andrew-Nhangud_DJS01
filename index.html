@@ -75,13 +75,20 @@
     <!-- Modal Structure -->
     <section id="podcastModal" class="modal">
         <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2 id="modalTitle">Podcast Title</h2>
-            <img id="modalImage" src="" alt="Podcast Image" />
-            <p id="modalDescription">Podcast description goes here.</p>
-            <div id="modalGenres" class="genres"></div>
-            <p id="modalLastUpdated">Last updated: <span></span></p>
-            <div id="modalSeasons" class="seasons"></div>
+            <div class="modalContent-header">
+                <h2 id="modalTitle">Podcast Title</h2>
+                <span class="close-button">&times;</span>
+            </div>
+            <hr class="line-diveder">
+            <div class="modalContent-info">
+                <img id="modalImage" src="" alt="Podcast Image" />
+                <div class="modalContent-details">
+                    <div id="modalGenres" class="genres"></div>
+                    <p id="modalLastUpdated">Last updated: <span></span></p>
+                    <p id="modalDescription">Podcast description goes here.</p>
+                    <div id="modalSeasons" class="seasons"></div>
+                </div>
+            </div>
         </div>
     </section>
 
