@@ -1,42 +1,51 @@
-// main.js
-
-import { PodcastModal, handlePodcastCardClick } from "./podcastModal.js";
-import { podcasts } from "./data.js"; // Import the podcasts data
-import { getGenreTitles, formatDate } from "./utils.js"; // Import utility functions
-
-// Initialize the modal
-const podcastModal = new PodcastModal("podcastModal", "close-button");
-
-// Function to create podcast cards
-function createPodcastCards() {
-  const podcastCardContainer = document.querySelector(".podcast-card");
-  podcastCardContainer.innerHTML = ""; // Clear existing cards
-
-  podcasts.forEach((podcast) => {
-    const card = document.createElement("section");
-    card.classList.add("innerPodcast-card");
-    card.innerHTML = `
-      <img src="${podcast.image}" alt="${podcast.title} podcast cover" />
-      <div class="podcast-card-info">
-        <h1>${podcast.title}</h1>
-        <div class="podcast-categories">
-          ${getGenreTitles(podcast.genres)
-            .map((genre) => `<p class="podcast-categories-items">${genre}</p>`)
-            .join("")}
-        </div>
-        <div class="podcast-meta">
-          <p class="season-info">${podcast.seasons} Seasons</p>
-          <p class="date">Last updated ${formatDate(podcast.updated)}</p>
-        </div>
-      </div>
-    `;
-    // Pass the podcasts array to the handlePodcastCardClick function
-    card.addEventListener("click", () =>
-      handlePodcastCardClick(card, podcastModal, podcasts)
+// Wait for DOM to load
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    // Import necessary modules
+    const { PodcastModal, handlePodcastCardClick } = await import(
+      "./podcastModal.js"
     );
-    podcastCardContainer.appendChild(card);
-  });
-}
+    const { podcasts } = await import("./data.js");
+    const { getGenreTitles, formatDate } = await import("./utils.js");
 
-// Call the function to create podcast cards
-createPodcastCards();
+    // Initialize modal
+    const podcastModal = new PodcastModal("podcastModal", "close-button");
+
+    // Create podcast cards
+    function createPodcastCards() {
+      const container = document.querySelector(".podcast-card");
+
+      podcasts.forEach((podcast) => {
+        const card = document.createElement("div");
+        card.className = "innerPodcast-card";
+        card.innerHTML = `
+                    <img src="${podcast.image}" alt="${podcast.title}">
+                    <div class="podcast-card-info">
+                        <h1>${podcast.title}</h1>
+                        <div class="podcast-categories">
+                            ${getGenreTitles(podcast.genres)
+                              .map(
+                                (genre) =>
+                                  `<p class="podcast-categories-items">${genre}</p>`
+                              )
+                              .join("")}
+                        </div>
+                        <p class="season-info">${podcast.seasons} Seasons</p>
+                        <p class="date">Last updated ${formatDate(
+                          podcast.updated
+                        )}</p>
+                    </div>
+                `;
+        card.addEventListener("click", () =>
+          handlePodcastCardClick(card, podcastModal, podcasts)
+        );
+        container.appendChild(card);
+      });
+    }
+
+    // Initialize the app
+    createPodcastCards();
+  } catch (error) {
+    console.error("Error initializing application:", error);
+  }
+});

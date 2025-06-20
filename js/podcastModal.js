@@ -1,89 +1,116 @@
-// podcastModal.js
-
-import { getGenreTitles } from "./utils.js"; // Import the getGenreTitles function
-
-/**
- * Class representing a Podcast Modal.
- */
-class PodcastModal {
+import { getGenreTitles, formatDate } from "./utils.js";
+import { seasons } from "./data.js";
+export class PodcastModal {
   constructor(modalId, closeButtonClass) {
     this.modal = document.getElementById(modalId);
     this.closeButton = document.querySelector(`.${closeButtonClass}`);
-    this.init();
-  }
+    this.viewMoreBtn = document.getElementById("viewMoreBtn");
+    this.fullScreenModal = document.getElementById("fullScreenModal");
+    this.backToPodcastBtn = document.getElementById("backToPodcastBtn");
 
-  init() {
-    this.closeButton.addEventListener("click", () => this.close());
-    window.addEventListener("click", (event) => {
-      if (event.target === this.modal) {
-        this.close();
-      }
-    });
+    // Check if elements exist before adding event listeners
+    if (this.closeButton) {
+      this.closeButton.addEventListener("click", () => this.close());
+    }
+
+    if (this.viewMoreBtn) {
+      this.viewMoreBtn.addEventListener("click", () =>
+        this.openFullScreenModal()
+      );
+    }
+
+    if (this.backToPodcastBtn) {
+      this.backToPodcastBtn.addEventListener("click", () =>
+        this.closeFullScreenModal()
+      );
+    }
+
+    if (this.modal) {
+      this.modal.addEventListener("click", (e) => {
+        if (e.target === this.modal) this.close();
+      });
+    }
   }
 
   open(podcastData) {
-    this.populateModal(podcastData);
+    this.currentPodcast = podcastData;
+    document.getElementById("modalTitle").textContent = podcastData.title;
+    document.getElementById("modalImage").src = podcastData.image;
+    document.getElementById("modalDescription").textContent =
+      podcastData.description;
+    document
+      .getElementById("modalLastUpdated")
+      .querySelector("span").textContent = formatDate(podcastData.updated);
+    document.getElementById("modalGenres").innerHTML = getGenreTitles(
+      podcastData.genres
+    )
+      .map((g) => `<span class="podcast-categories-items">${g}</span>`)
+      .join("");
     this.modal.style.display = "block";
+  }
+
+  openFullScreenModal() {
+    const podcast = this.currentPodcast;
+    document.getElementById("fullScreenModalTitle").textContent = podcast.title;
+    document.getElementById("fullScreenModalImage").src = podcast.image;
+    document.getElementById("fullScreenModalDescription").textContent =
+      podcast.description;
+    document
+      .getElementById("fullScreenModalLastUpdated")
+      .querySelector("span").textContent = formatDate(podcast.updated);
+    document.getElementById("fullScreenModalGenres").innerHTML = getGenreTitles(
+      podcast.genres
+    )
+      .map((g) => `<span class="podcast-categories-items">${g}</span>`)
+      .join("");
+
+    const seasonsList =
+      seasons.find((s) => s.id === podcast.id)?.seasonDetails || [];
+    const seasonsContainer = document.getElementById("seasonsContainer");
+    seasonsContainer.innerHTML = seasonsList
+      .map(
+        (season) => `
+            <div class="season-item">
+                <div class="season-header">
+                    <span class="season-title">${season.title}</span>
+                    <span>${season.episodes} episodes</span>
+                </div>
+                <div class="season-episodes">
+                    ${Array.from({ length: season.episodes }, (_, i) => i + 1)
+                      .map(
+                        (ep) => `<div class="episode-item">
+                            <div class="episode-title">Episode ${ep}</div>
+                            <div class="episode-desc">Sample description for episode ${ep}</div>
+                        </div>`
+                      )
+                      .join("")}
+                </div>
+            </div>
+        `
+      )
+      .join("");
+
+    seasonsContainer.querySelectorAll(".season-header").forEach((header) => {
+      header.addEventListener("click", function () {
+        this.nextElementSibling.style.display =
+          this.nextElementSibling.style.display === "block" ? "none" : "block";
+      });
+    });
+
+    this.close();
+    this.fullScreenModal.style.display = "block";
   }
 
   close() {
     this.modal.style.display = "none";
   }
-
-  populateModal(podcastData) {
-    document.getElementById("modalTitle").innerText = podcastData.title;
-    document.getElementById("modalImage").src = podcastData.image;
-    document.getElementById("modalDescription").innerText =
-      podcastData.description;
-    document
-      .getElementById("modalLastUpdated")
-      .querySelector("span").innerText = this.formatDate(podcastData.updated);
-
-    const genresContainer = document.getElementById("modalGenres");
-    genresContainer.innerHTML = this.createGenresHTML(podcastData.genres); // Use the genre titles
-
-    const seasonsContainer = document.getElementById("modalSeasons");
-    if (Array.isArray(podcastData.seasons)) {
-      seasonsContainer.innerHTML = this.createSeasonsHTML(podcastData.seasons);
-    } else {
-      seasonsContainer.innerHTML = `<p>${podcastData.seasons} Seasons</p>`; // Display the number of seasons
-    }
-  }
-
-  createGenresHTML(genreIds) {
-    const genreTitles = getGenreTitles(genreIds); // Get the genre titles
-    return genreTitles
-      .map((title) => `<span class="podcast-categories-items">${title}</span>`)
-      .join("");
-  }
-
-  createSeasonsHTML(seasons) {
-    return seasons
-      .map((season) => `<p>${season.title} - ${season.episodes} episodes</p>`)
-      .join("");
-  }
-
-  formatDate(dateString) {
-    const options = { day: "numeric", month: "long", year: "numeric" };
-    return new Date(dateString).toLocaleDateString("en-GB", options);
+  closeFullScreenModal() {
+    this.fullScreenModal.style.display = "none";
   }
 }
 
-// Function to handle podcast card clicks
-function handlePodcastCardClick(card, podcastModal, podcasts) {
-  const podcastTitle = card.querySelector("h1").innerText;
-
-  // Find the podcast data based on the title
-  const podcastData = podcasts.find(
-    (podcast) => podcast.title === podcastTitle
-  );
-
-  if (podcastData) {
-    podcastModal.open(podcastData);
-  } else {
-    console.error("Podcast data not found for title:", podcastTitle);
-  }
+export function handlePodcastCardClick(card, podcastModal, podcasts) {
+  const title = card.querySelector("h1").textContent;
+  const podcast = podcasts.find((p) => p.title === title);
+  if (podcast) podcastModal.open(podcast);
 }
-
-// Export the PodcastModal class and handlePodcastCardClick function
-export { PodcastModal, handlePodcastCardClick };
