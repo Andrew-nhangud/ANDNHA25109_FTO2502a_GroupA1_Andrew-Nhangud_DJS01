@@ -234,6 +234,92 @@ span{
     margin-top: 20px;
 }
 
+/* Add this to your existing styles.css */
+.view-more-btn {
+    background-color: #000;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.full-screen-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 100;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.full-screen-modal-header {
+    padding: 15px 0;
+    border-bottom: 1px solid #D1D5DB;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #000;
+}
+
+.podcast-info-section {
+    display: flex;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.podcast-info-section img {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.seasons-episodes-section h3 {
+    margin: 30px 0 15px;
+}
+
+.season-item {
+    margin-bottom: 15px;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+}
+
+.season-header {
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+.season-episodes {
+    padding: 15px;
+    background: #f7f7f7;
+}
+
+.episode-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #D1D5DB;
+}
+
+@media (max-width: 768px) {
+    .podcast-info-section {
+        flex-direction: column;
+    }
+    .podcast-info-section img {
+        width: 100%;
+    }
+}
+
+
 
 
 
