@@ -1,23 +1,17 @@
 // podcastModal.js
 
+import { getGenreTitles } from "./utils.js"; // Import the getGenreTitles function
+
 /**
  * Class representing a Podcast Modal.
  */
 class PodcastModal {
-  /**
-   * Create a PodcastModal.
-   * @param {string} modalId - The ID of the modal element.
-   * @param {string} closeButtonClass - The class of the close button.
-   */
   constructor(modalId, closeButtonClass) {
     this.modal = document.getElementById(modalId);
     this.closeButton = document.querySelector(`.${closeButtonClass}`);
     this.init();
   }
 
-  /**
-   * Initialize the modal by setting up event listeners.
-   */
   init() {
     this.closeButton.addEventListener("click", () => this.close());
     window.addEventListener("click", (event) => {
@@ -27,26 +21,15 @@ class PodcastModal {
     });
   }
 
-  /**
-   * Open the modal and populate it with podcast data.
-   * @param {Object} podcastData - The data of the podcast to display.
-   */
   open(podcastData) {
     this.populateModal(podcastData);
     this.modal.style.display = "block";
   }
 
-  /**
-   * Close the modal.
-   */
   close() {
     this.modal.style.display = "none";
   }
 
-  /**
-   * Populate the modal with podcast data.
-   * @param {Object} podcastData - The data of the podcast to display.
-   */
   populateModal(podcastData) {
     document.getElementById("modalTitle").innerText = podcastData.title;
     document.getElementById("modalImage").src = podcastData.image;
@@ -54,60 +37,52 @@ class PodcastModal {
       podcastData.description;
     document
       .getElementById("modalLastUpdated")
-      .querySelector("span").innerText = podcastData.lastUpdated;
+      .querySelector("span").innerText = this.formatDate(podcastData.updated);
 
-    // Set genres
     const genresContainer = document.getElementById("modalGenres");
-    genresContainer.innerHTML = this.createGenresHTML(podcastData.genres);
+    genresContainer.innerHTML = this.createGenresHTML(podcastData.genres); // Use the genre titles
 
-    // Set seasons
     const seasonsContainer = document.getElementById("modalSeasons");
-    seasonsContainer.innerHTML = this.createSeasonsHTML(podcastData.seasons);
+    if (Array.isArray(podcastData.seasons)) {
+      seasonsContainer.innerHTML = this.createSeasonsHTML(podcastData.seasons);
+    } else {
+      seasonsContainer.innerHTML = `<p>${podcastData.seasons} Seasons</p>`; // Display the number of seasons
+    }
   }
 
-  /**
-   * Create HTML for genres.
-   * @param {Array} genres - The list of genres.
-   * @returns {string} The HTML string for genres.
-   */
-  createGenresHTML(genres) {
-    return genres
-      .map((genre) => `<span class="podcast-categories-items">${genre}</span>`)
+  createGenresHTML(genreIds) {
+    const genreTitles = getGenreTitles(genreIds); // Get the genre titles
+    return genreTitles
+      .map((title) => `<span class="podcast-categories-items">${title}</span>`)
       .join("");
   }
 
-  /**
-   * Create HTML for seasons.
-   * @param {Array} seasons - The list of seasons.
-   * @returns {string} The HTML string for seasons.
-   */
   createSeasonsHTML(seasons) {
     return seasons
       .map((season) => `<p>${season.title} - ${season.episodes} episodes</p>`)
       .join("");
   }
+
+  formatDate(dateString) {
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    return new Date(dateString).toLocaleDateString("en-GB", options);
+  }
 }
 
 // Function to handle podcast card clicks
-/**
- * Handle podcast card click event.
- * @param {HTMLElement} card - The podcast card element.
- * @param {PodcastModal} podcastModal - The instance of the PodcastModal class.
- */
-function handlePodcastCardClick(card, podcastModal) {
-  const podcastData = {
-    title: card.querySelector("h1").innerText,
-    image: card.querySelector("img").src,
-    description: "Detailed description of the podcast goes here.", // Replace with actual description
-    genres: ["Science", "Education"], // Replace with actual genres
-    lastUpdated: "7 November 2025", // Replace with actual date
-    seasons: [
-      { title: "Season 1", episodes: 10 },
-      { title: "Season 2", episodes: 8 },
-    ], // Replace with actual seasons
-  };
+function handlePodcastCardClick(card, podcastModal, podcasts) {
+  const podcastTitle = card.querySelector("h1").innerText;
 
-  podcastModal.open(podcastData);
+  // Find the podcast data based on the title
+  const podcastData = podcasts.find(
+    (podcast) => podcast.title === podcastTitle
+  );
+
+  if (podcastData) {
+    podcastModal.open(podcastData);
+  } else {
+    console.error("Podcast data not found for title:", podcastTitle);
+  }
 }
 
 // Export the PodcastModal class and handlePodcastCardClick function

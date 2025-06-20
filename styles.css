@@ -282,7 +282,7 @@ span{
 /* Styles for Modal Structure */
 .modal-content {
     width: 678px;
-    height: 350px;
+    height: auto;
 }
 .modalContent-info{
     display: flex;
@@ -353,14 +353,16 @@ span{
     overflow: hidden;
 }
 .modal-content {
-    
+    position: absolute;
+    top: -70px;
+    left: 300px;
     width: 778px; 
-    height: 350px;
+    height: auto;
 }
 .line-diveder{
     position: absolute;
-    left: 296px;
-    top: 230px;
+    left: 1px;
+    top: 20px;
     width: 775px;
 }
 .close-button {
@@ -369,7 +371,7 @@ span{
 }
 .modalContent-header{
     position: absolute;
-    top: 200px;
+    top: 5px;
 }
 
 }
