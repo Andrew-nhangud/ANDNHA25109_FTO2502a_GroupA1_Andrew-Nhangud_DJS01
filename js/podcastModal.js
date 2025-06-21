@@ -1,5 +1,6 @@
 import { getGenreTitles, formatDate } from "./utils.js";
 import { seasons } from "./data.js";
+
 export class PodcastModal {
   constructor(modalId, closeButtonClass) {
     this.modal = document.getElementById(modalId);
@@ -8,7 +9,6 @@ export class PodcastModal {
     this.fullScreenModal = document.getElementById("fullScreenModal");
     this.backToPodcastBtn = document.getElementById("backToPodcastBtn");
 
-    // Check if elements exist before adding event listeners
     if (this.closeButton) {
       this.closeButton.addEventListener("click", () => this.close());
     }
@@ -46,6 +46,13 @@ export class PodcastModal {
     )
       .map((g) => `<span class="podcast-categories-items">${g}</span>`)
       .join("");
+
+    // Add seasons count to the initial modal
+    const seasonsCount = podcastData.seasons;
+    document.getElementById("modalSeasons").innerHTML = `
+      <div class="season-count">${seasonsCount} Seasons</div>
+    `;
+
     this.modal.style.display = "block";
   }
 
@@ -63,6 +70,12 @@ export class PodcastModal {
     )
       .map((g) => `<span class="podcast-categories-items">${g}</span>`)
       .join("");
+
+    // Add seasons count to the full screen modal
+    const seasonsCount = podcast.seasons;
+    document.getElementById("fullScreenModalSeasons").innerHTML = `
+      <div class="season-count">${seasonsCount} Seasons</div>
+    `;
 
     const seasonsList =
       seasons.find((s) => s.id === podcast.id)?.seasonDetails || [];

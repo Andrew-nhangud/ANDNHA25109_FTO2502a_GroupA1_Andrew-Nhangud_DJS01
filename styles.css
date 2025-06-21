@@ -234,7 +234,6 @@ span{
     margin-top: 20px;
 }
 
-/* Add this to your existing styles.css */
 .view-more-btn {
     background-color: #000;
     color: white;
@@ -310,13 +309,22 @@ span{
     border-bottom: 1px solid #D1D5DB;
 }
 
-@media (max-width: 768px) {
-    .podcast-info-section {
-        flex-direction: column;
-    }
-    .podcast-info-section img {
-        width: 100%;
-    }
+/* Add this to your existing styles.css */
+.season-count {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent-color);
+    margin-top: 10px;
+}
+
+/* In the modal styles */
+.modalContent-details .seasons {
+    margin-top: 10px;
+}
+
+/* In the full screen modal styles */
+.podcast-info-text .seasons {
+    margin-top: 10px;
 }
 
 
@@ -397,6 +405,12 @@ span{
     margin-top: 70px;
     margin-bottom: 20px;
 }
+.podcast-info-section {
+        flex-direction: column;
+    }
+    .podcast-info-section img {
+        width: 100%;
+    }
 }
 
 
